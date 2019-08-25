@@ -1,51 +1,102 @@
 // Game Structure
 // -----------------------
-// 1. Words/Letters
-// 2. Player Guesses
-// 3. Guesses = true/false
-// 4. Keep track of player input 
-// 5. Show player Progress
-// 6. Finish game with win or loss
-
-// Declare variables, functions, and loops
-// ---------------------------
-
-// Array of Words
-
-alert("dude");
-
+// GLOBAL VARIABLES
 
 var words = [
-    "pasta",
-    "donkey",
-    "structure",
-    "pizza",
-    "ranger",
-    "goodness",
-    "silhouette",
-    "blowtorch",
-    "bandwagon",
-    "perspicacity",
-    "loquacious",
-    "elocution",
-    "vistas"];
+    "lv426",
+    "aliens",
+    "sulaco",
+    "jonesy",
+    "marines",
+    "hicks",
+    "hudson",
+    "acid",
+    "claws",
+    "ripley",
+    "newt",
+    "weyland",
+    "yutani",
+    ];
+
+    var wordChoice = words[randomWord];
+    var randomWord = Math.floor(Math.random() * words.length);
+    var guessCounter = 5;
+    var winCounter = 0;
+    var lossCounter = 0;
+    var blanks = [];
+
+    var rightLetter = [];
+    var wrongLetter = [];
+
+    // DOM MANIPULATION
+    // -------------------------
+
+    var blanksHTML = document.getElementsByClassName("blanks");
+    var rightGuess = document.getElementsByClassName("rightGuess");
+    var wrongGuess = document.getElementsByClassName("wrongGuess");
+    var wins = document.getElementsByClassName("wins").innerHTML = winCounter;
+    var losses = document.getElementsByClassName("losses").innerHTML = lossCounter;
+    
+// START Game
+// ---------------------------
+    function startGame() {
+        
+    var randomWord = Math.floor(Math.random() * words.length);
+    var guessCounter = 5;
+    var winCounter = 0;
+    var lossCounter = 0;
+    blanks = 0;
+    var rightLetter = [];
+    var wrongLetter = [];
+    
+    var blanks = [];
+    console.log(wordChoice);
+
+    }
+
+    function generateBlanks() {
+        
+    for (var i = 0; i < wordChoice.length; i++) {
+        blanks.push("-");
+        blanksHTML[0].textContent = blanks.join("");
+    }
+    return blanks;
+    }
 
 
+// GAME LOGIC
+// --------------------------------
 
+document.onkeyup = function(event) {
+    var keycode = event.keyCode;
+    var keyWord = String.fromCharCode(event.which);
+  
+    if (wordChoice.indexOf(keyWord) > -1) {
+        rightLetter.push(keyWord);
+        blanks[wordChoice.indexOf(keyWord)] = keyWord;
+        blanksHTML[0].innerHTML = blanks.join("");
+        rightGuess[0].innerHTML = rightLetter;
+    }
 
-// Set Random word
+    if(blanks.join("") === wordChoice) {
+        winCounter++;
+        alert("You Win" + " " + winCounter);
+        startGame();
+    
+    }
 
-var randomWord = words[Math.floor(Math.random() * words.length)];
+    else if (!wordChoice.indexOf(keyWord) > -1) {
+        wrongLetter.push(keyWord);
+        blanksHTML[wordChoice.indexOf(keyWord)] = keyWord;
+        blanksHTML[0].innerHTML = blanks.join(" ");
+        wrongGuess[0].innerHTML = wrongLetter;
+    }
+    if(keyWord != wordChoice) {
+        guessCounter--;
+        console.log(guessCounter);
 
-// var wordSplit = elementInArray.split(" "); Pseudocode
-
-// var answerArray = "_" Pseudocode
-
-for (var i = 0; i < words.length; i++) {
-    answerArray([i])
-}
-
-
-
-
-
+    if(guessCounter === 0) {
+        lossCounter++;
+        alert("You lose" + " " + lossCounter)
+        startGame();
+    }}};
